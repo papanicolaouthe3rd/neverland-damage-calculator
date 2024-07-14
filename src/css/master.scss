@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
 .form-container {
     max-width: 1000px;
     margin: 10px auto;
@@ -25,4 +27,10 @@
     cursor: pointer;
     color: #007bff;
     margin-left: 5px;
+}
+.tooltip-icon {
+    color: gray;
+    &:hover {
+        color: #555;
+    }
 }

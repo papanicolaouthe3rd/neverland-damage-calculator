@@ -6,12 +6,9 @@
     <title>Bootstrap demo</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/master.css">
   </head>
   <body>
-    <i class="bi-alarm"></i>
-    
     <div class="container form-container">
         <form id="attribute-form">
             <div class="form-group target-player-section">
@@ -35,8 +32,9 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="atk-amplifier-field">
-                            ATK Amplifier
-                            <i class="fas fa-info-circle tooltip-icon" data-toggle="tooltip" data-placement="right" title="Percentage increase in attack from class advancements and Holy Echo."></i>
+                            ATK Amplifier 
+                            <i class="bi bi-question-circle-fill tooltip-icon" data-toggle="tooltip" data-placement="bottom" 
+                                title="The sum of amplifiers from Skill Advancements and Echoes (e.g. Holy Echo)"></i>
                         </label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="atk-amplifier" id="atk-amplifier-field" value="32">
@@ -54,13 +52,21 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="crit-field">Base CRIT</label>
+                        <label for="crit-field">
+                            Base CRIT
+                            <i class="bi bi-question-circle-fill tooltip-icon" data-toggle="tooltip" data-placement="bottom" 
+                                title="The numeric value of crit (first row in Crit Rate tooltip)"></i>
+                        </label>
                         <input type="number" class="form-control" name="crit" id="crit-field">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="crit-rate-field">Additional CRIT Rate (Class Advancements and Echoes)</label>
+                        <label for="crit-rate-field">
+                            Additional CRIT Rate
+                            <i class="bi bi-question-circle-fill tooltip-icon" data-toggle="tooltip" data-placement="bottom" 
+                                title="The sum of Class Advancement, Flower Fairy Echo and Other in Crit Rate tooltip"></i>
+                        </label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="crit-rate" id="crit-rate-field" value="32">
                             <div class="input-group-append">
@@ -71,7 +77,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="crit-dmg-field">Crit DMG</label>
+                        <label for="crit-dmg-field">Crit DMG +</label>
                         <div class="input-group">
                             <input type="number" class="form-control" name="crit-dmg" id="crit-dmg-field">
                             <div class="input-group-append">
@@ -86,7 +92,11 @@
 
             <!-- Break Rate -->
             <div class="form-group">
-                <label for="break-rate-field">Break Rate (Total)</label>
+                <label for="break-rate-field">
+                    Break Rate
+                    <i class="bi bi-question-circle-fill tooltip-icon" data-toggle="tooltip" data-placement="bottom" 
+                        title="The total percentage next to Break Rate attribute row"></i>
+                </label>
                 <div class="input-group">
                     <input type="number" class="form-control" name="break-rate" id="break-rate-field">
                     <div class="input-group-append">

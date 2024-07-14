@@ -28,15 +28,6 @@ function copyCss() {
         .pipe(gulp.dest('dist/css'));
 };
 
-
-
-function moveBootstrapIconsFonts() {
-    return gulp.src([
-        'node_modules/bootstrap-icons/font/**/*'
-    ])
-    .pipe(gulp.dest('dist/bootstrap-icons'));
-}
-
 function moveGeneralDependencies() {
     return gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -61,6 +52,6 @@ function watchFiles() {
 }
 
 exports.default = series(
-  parallel(moveGeneralDependencies, moveBootstrapIconsFonts, copyHtml, copyCss, copyJs),
+  parallel(moveGeneralDependencies, copyHtml, copyCss, copyJs),
   watchFiles
 );
