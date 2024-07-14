@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/master.css">
+  </head>
+  <body>
+    <i class="bi-alarm"></i>
+    
+    <div class="container form-container">
+        <form id="attribute-form">
+            <div class="form-group target-player-section">
+                <label for="target-player-field">Target player</label>
+                <select class="form-control" name="target-player" id="target-player-field">
+                    <option value="shionne">Shionne EU34</option>
+                    <option value="2high4you">2High4You EU52</option>
+                </select>
+            </div>
+            
+            <div class="section-heading">Your attributes</div>
+            
+            <!-- Attack Group -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="atk-field">ATK</label>
+                        <input type="number" class="form-control" name="atk" id="atk-field">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="atk-amplifier-field">
+                            ATK Amplifier
+                            <i class="fas fa-info-circle tooltip-icon" data-toggle="tooltip" data-placement="right" title="Percentage increase in attack from class advancements and Holy Echo."></i>
+                        </label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="atk-amplifier" id="atk-amplifier-field" value="32">
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+
+            <!-- Critical Group -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="crit-field">Base CRIT</label>
+                        <input type="number" class="form-control" name="crit" id="crit-field">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="crit-rate-field">Additional CRIT Rate (Class Advancements and Echoes)</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="crit-rate" id="crit-rate-field" value="32">
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="crit-dmg-field">Crit DMG</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="crit-dmg" id="crit-dmg-field">
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+
+            <!-- Break Rate -->
+            <div class="form-group">
+                <label for="break-rate-field">Break Rate (Total)</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="break-rate" id="break-rate-field">
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Damage Increase Group -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dmg-increase-field">DMG increase</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="dmg-increase" id="dmg-increase-field">
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="pvp-dmg-increase-field">Damage to adventurers increased</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="pvp-dmg-increase" id="pvp-dmg-increase-field">
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+
+            <!-- Pierce Rate -->
+            <div class="form-group">
+                <label for="pierce-rate-field">Pierce Rate</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="pierce-rate" id="pierce-rate-field">
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+
+            <!-- Save form values -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="save_form_vals" id="save_values_upon_submission" checked>
+                <label class="form-check-label" for="save_values_upon_submission">
+                    Save form values upon submission
+                </label>
+            </div>
+            
+            <!-- Submit button -->
+            <div class="form-group submit-btn">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+    </div>
+    
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/save_form_values.js"></script>
+  </body>
+</html>
