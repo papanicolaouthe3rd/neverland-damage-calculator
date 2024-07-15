@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Neverland Damage Calculator</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/master.css">
   </head>
   <body>
     <div class="container form-container">
-        <form id="attribute-form">
+        <form id="attribute-form" action="recommendations.html" method="get">
             <div class="form-group target-player-section">
                 <label for="target-player-field">Target player</label>
-                <select class="form-control" name="target-player" id="target-player-field">
+                <select class="form-control" name="target_player" id="target-player-field">
                     <option value="shionne">Shionne EU34</option>
                     <option value="2high4you">2High4You EU52</option>
                 </select>
@@ -26,7 +26,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="atk-field">ATK</label>
-                        <input type="number" class="form-control" name="atk" id="atk-field">
+                        <input type="number" class="form-control" name="attack" id="atk-field">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -37,7 +37,7 @@
                                 title="The sum of amplifiers from Skill Advancements and Echoes (e.g. Holy Echo)"></i>
                         </label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="atk-amplifier" id="atk-amplifier-field" value="32">
+                            <input type="number" class="form-control" name="attack_amplifier" id="atk-amplifier-field" value="32">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -68,7 +68,7 @@
                                 title="The sum of Class Advancement, Flower Fairy Echo and Other in Crit Rate tooltip"></i>
                         </label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="crit-rate" id="crit-rate-field" value="32">
+                            <input type="number" class="form-control" name="crit_rate" id="crit-rate-field" value="32">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -79,7 +79,7 @@
                     <div class="form-group">
                         <label for="crit-dmg-field">Crit DMG +</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="crit-dmg" id="crit-dmg-field">
+                            <input type="number" class="form-control" name="crit_dmg" id="crit-dmg-field">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -98,12 +98,14 @@
                         title="The total percentage next to Break Rate attribute row"></i>
                 </label>
                 <div class="input-group">
-                    <input type="number" class="form-control" name="break-rate" id="break-rate-field">
+                    <input type="number" class="form-control" name="break_rate" id="break-rate-field">
                     <div class="input-group-append">
                         <span class="input-group-text">%</span>
                     </div>
                 </div>
             </div>
+
+            <br>
             
             <!-- Damage Increase Group -->
             <div class="row">
@@ -111,7 +113,7 @@
                     <div class="form-group">
                         <label for="dmg-increase-field">DMG increase</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="dmg-increase" id="dmg-increase-field">
+                            <input type="number" class="form-control" name="dmg_increase" id="dmg-increase-field">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -122,7 +124,7 @@
                     <div class="form-group">
                         <label for="pvp-dmg-increase-field">Damage to adventurers increased</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="pvp-dmg-increase" id="pvp-dmg-increase-field">
+                            <input type="number" class="form-control" name="pvp_dmg_increase" id="pvp-dmg-increase-field">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -137,7 +139,7 @@
             <div class="form-group">
                 <label for="pierce-rate-field">Pierce Rate</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" name="pierce-rate" id="pierce-rate-field">
+                    <input type="number" class="form-control" name="pierce_rate" id="pierce-rate-field">
                     <div class="input-group-append">
                         <span class="input-group-text">%</span>
                     </div>

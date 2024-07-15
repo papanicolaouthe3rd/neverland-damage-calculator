@@ -2,16 +2,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('attribute-form');
 
     const defaultFormValues = {
-        "atk": 100000,
-        "atk-amplifier": 32,
+        "attack": 100000,
+        "attack_amplifier": 32,
         "crit": 10000,
-        "crit-rate": 32,
-        "crit-dmg": 0,
-        "break-rate": 50,
-        "dmg-increase": 10,
-        "pvp-dmg-increase": 12,
-        "pierce-rate": 50,
-        "target-player": "shionne",
+        "crit_rate": 32,
+        "crit_dmg": 0,
+        "break_rate": 50,
+        "dmg_increase": 10,
+        "pvp_dmg_increase": 12,
+        "pierce_rate": 50,
+        "target_player": "shionne",
         "save_form_vals": "off"
     };
 

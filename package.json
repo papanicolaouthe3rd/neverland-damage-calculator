@@ -13,6 +13,7 @@
     "bootstrap-icons": "^1.11.3",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^7.0.1",
+    "gulp-browserify": "^0.5.1",
     "gulp-cli": "^3.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^5.1.0",
