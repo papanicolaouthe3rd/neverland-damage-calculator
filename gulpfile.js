@@ -5,12 +5,21 @@ const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
+const browserSync = require('browser-sync').create()
 const { compile } = require('sass');
 
 const files = {
     js:     ['src/js/**/*.js'],
     css:    ['src/css/**/*.css', 'src/css/**/*.sass', 'src/css/**/*.scss'],
     html:   ['src/**/*.html']
+}
+
+function updateBrowserOnChange() {
+    browserSync.init({
+        server: { baseDir: "./dist", port: 3000 },
+        ui: { port: 3001 },
+    });
+    browserSync.watch("./dist/**/*").on('change', browserSync.reload)
 }
 
 function copyHtml() {
@@ -53,5 +62,5 @@ function watchFiles() {
 
 exports.default = series(
   parallel(moveGeneralDependencies, copyHtml, copyCss, copyJs),
-  watchFiles
+  parallel(watchFiles, updateBrowserOnChange)
 );

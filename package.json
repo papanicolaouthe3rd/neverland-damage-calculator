@@ -1,5 +1,5 @@
 {
-  "name": "TLON_against_hummanity",
+  "name": "Neverland Damage Calculator",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "bootstrap-icons": "^1.11.3",
+    "browser-sync": "^3.0.2",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-browserify": "^0.5.1",
