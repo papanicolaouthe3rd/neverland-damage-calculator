@@ -38,4 +38,8 @@
 .tooltip-icon:hover {
   color: #555;
 }
+
+#recommendation-container {
+  margin: 10px auto;
+}
 /*# sourceMappingURL=master.css.map */

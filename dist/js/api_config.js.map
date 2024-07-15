@@ -1,0 +1,1 @@
+{"version":3,"file":"api_config.js","sources":["src/js/api_config.js"],"sourcesContent":["export default {\n    api_url: 'http://localhost:7001'\n}"],"names":["api_url"],"mappings":";;;AAAA,qBAAe;MACXA,OAAO,EAAE;IACb,CAAC;;;;;;;;"}

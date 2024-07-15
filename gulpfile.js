@@ -5,7 +5,11 @@ const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
-const browserSync = require('browser-sync').create()
+const browserSync = require('browser-sync').create();
+const rollup = require('gulp-better-rollup');
+const babel = require('rollup-plugin-babel');
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
 const { compile } = require('sass');
 
 const files = {
@@ -51,6 +55,18 @@ function copyJs() {
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/jquery/dist/jquery.min.js'
         ])
+        .pipe(sourcemaps.init())
+        .pipe(rollup({
+            plugins: [
+              resolve(),
+              commonjs(),
+              babel({
+                presets: ['@babel/preset-env'],
+                babelrc: false
+              })
+            ]
+          }, 'iife'))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/js'));
 }
 
