@@ -15,8 +15,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         "save_form_vals": "off"
     };
 
+    let storedFormData = JSON.parse(localStorage.getItem("formData"));
+    if (storedFormData === null) {
+        storedFormData = defaultFormValues;
+    }
+    else {
+        for (const key of Object.keys(defaultFormValues)) {
+            if (!storedFormData.hasOwnProperty(key)) {
+                storedFormData[key] = defaultFormValues[key];
+            }
+        }
+    }
+    
     // Load saved values
-    const formData = JSON.parse(localStorage.getItem("formData")) || defaultFormValues;
+    const formData = storedFormData
+    
     for (const [key, value] of Object.entries(formData)) {
         if (form.elements[key]) {
             if (form.elements[key].type === 'checkbox') {
