@@ -192,7 +192,13 @@ function StatsAndTargetForm({
                                             { field.prepend && <InputGroup.Text >{field.prepend}</InputGroup.Text>}
                                             <Form.Control type={field.type} 
                                                 value={formState[field.name]} 
-                                                onChange={updateEntrySetterFactory(field.name)}/>
+                                                onChange={updateEntrySetterFactory(field.name)}
+                                                min={ field.type === "number" ? 0 : null }
+                                                step={ field.type === "number" ? (
+                                                    field.append === "%" ? 0.01 : 1
+                                                ) : null }
+                                                required
+                                            />
                                             { field.append && <InputGroup.Text >{field.append}</InputGroup.Text>}
                                         </InputGroup>
                                     </Form.Group>
