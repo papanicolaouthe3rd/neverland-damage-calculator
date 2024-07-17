@@ -6,9 +6,17 @@ import Col from 'react-bootstrap/Col';
 
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 import React from 'react';
 // import Tooltip from 'react-bootstrap/Tooltip';
+
+const availablePlayers = [
+    { username: "Test player 1", id: "tp1" },
+    { username: "Test player 2", id: "tp2" },
+];
+const isSupportedPlayerId = queryId => 
+    availablePlayers.some(player => player.id === queryId);
 
 const defaultFormValues = {
     "attack": 100000,
@@ -20,7 +28,7 @@ const defaultFormValues = {
     "dmg_increase": 10,
     "pvp_dmg_increase": 12,
     "pierce_rate": 50,
-    "target_player": "shionne",
+    "target_player": availablePlayers[0].id,
     "save_form_vals": false
 };
 
@@ -46,6 +54,14 @@ const attributeFormFields = [
     ]
 ];
 
+
+const labelToName = attributeFormFields.flat().reduce((acc, field) => ({
+    ...acc,
+    [field.name]: field.label
+}), { "target_player": "Target player" });
+
+
+
 function getStoredFormValues() {
     const formData = JSON.parse(localStorage.getItem("storedAttributeFormData")) || defaultFormValues;
     for (const key of Object.keys(defaultFormValues)) {
@@ -58,6 +74,9 @@ function getStoredFormValues() {
             delete formData[key];
         }
     }
+    if (!isSupportedPlayerId(formData["target_player"])) {
+        formData["target_player"] = defaultFormValues["target_player"];
+    }
     return formData;
 }
 
@@ -69,21 +88,51 @@ function clearStoredFormValues() {
     localStorage.removeItem("storedAttributeFormData");
 }
 
-function processFormValues(formData) {
+function processFormValues(formData, onErrorCallback) {
     const processedData = {...formData};
     delete processedData['save_form_vals'];
+    if (!isSupportedPlayerId(processedData["target_player"])) {
+        onErrorCallback("Invalid target player selected.");
+        return null;
+    }
     for (const key of ['attack', 'crit']) {
-        processedData[key] = parseInt(processedData[key]);
+        try {
+            if (processedData[key] === "") {
+                throw new Error("Empty value");
+            }
+            processedData[key] = parseInt(processedData[key]);
+            if (processedData[key] < 0) {
+                throw new Error("Negative value");
+            }
+        } catch (error) {
+            onErrorCallback(`${labelToName[key]} must be a positive integer.`);
+            return null;
+        }
     }
     for (const key of ['attack_amplifier', 'crit_rate', 'crit_dmg', 
             'break_rate', 'dmg_increase', 'pvp_dmg_increase', 'pierce_rate']) {
-        processedData[key] = parseFloat(processedData[key]) / 100;
+        try{
+            if (processedData[key] === "") {
+                throw new Error("Empty value");
+            }
+            processedData[key] = parseFloat(processedData[key]) / 100;
+            if (processedData[key] < 0) {
+                throw new Error("Negative value");
+            }
+        } catch (error) {
+            onErrorCallback(`${labelToName[key]} must be a positive real number.`);
+            return null;
+        }
     }
+    onErrorCallback(null);
     return processedData;
 }
 
-function StatsAndTargetForm() {
+function StatsAndTargetForm({ 
+        onSuccessfulSubmitCallback = _ => { throw new Error("No callback provided.") } 
+    }) {
     const [ formState, setFormState ] = React.useState(getStoredFormValues());
+    const [ errorMessage, setErrorMessage ] = React.useState(null);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -93,7 +142,10 @@ function StatsAndTargetForm() {
         else {
             clearStoredFormValues();
         }
-
+        const processedForm = processFormValues(formState, setErrorMessage);
+        if (processedForm !== null) {
+            onSuccessfulSubmitCallback(processedForm);
+        }
     }
 
     function updateEntrySetterFactory(key, checkbox=false) {
@@ -106,57 +158,67 @@ function StatsAndTargetForm() {
         }
     }
 
+    
+
     return (
-        <div className="form-container">
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="target-player-section">
-                    <Form.Label>Target player</Form.Label>
-                    <Form.Control as="select" 
-                            value={formState["target_player"]} 
-                            onChange={updateEntrySetterFactory("target_player")}>
-                        <option value="shionne">Shionne EU34</option>
-                        <option value="2high4you">2High4You EU52</option>
-                    </Form.Control>
-                </Form.Group>
+        <>
+            { (errorMessage !== null) && 
+            <Alert variant="danger" key="formDangerAlert" style={{ margin: "10px" }}>
+                {errorMessage}
+            </Alert>
+            } 
+            <div className="form-container">
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="target-player-section">
+                        <Form.Label>Target player</Form.Label>
+                        <Form.Control as="select" 
+                                value={formState["target_player"]} 
+                                onChange={updateEntrySetterFactory("target_player")}>
+                            { availablePlayers.map((player) => ( 
+                                <option value={player.id}>{player.username}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
 
-                <div className="section-heading">Your attributes</div>
+                    <div className="section-heading">Your attributes</div>
 
-                { attributeFormFields.map((fieldRow) => (
+                    { attributeFormFields.map((fieldRow) => (
+                        <Row className="formFieldsRow">
+                            { fieldRow.map((field) => (
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>{field.label}</Form.Label>
+                                        <InputGroup>
+                                            { field.prepend && <InputGroup.Text >{field.prepend}</InputGroup.Text>}
+                                            <Form.Control type={field.type} 
+                                                value={formState[field.name]} 
+                                                onChange={updateEntrySetterFactory(field.name)}/>
+                                            { field.append && <InputGroup.Text >{field.append}</InputGroup.Text>}
+                                        </InputGroup>
+                                    </Form.Group>
+                                </Col>
+                            ))}
+                        </Row>
+                    ))}
                     <Row className="formFieldsRow">
-                        { fieldRow.map((field) => (
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label>{field.label}</Form.Label>
-                                    <InputGroup>
-                                        { field.prepend && <InputGroup.Text >{field.prepend}</InputGroup.Text>}
-                                        <Form.Control type={field.type} 
-                                            value={formState[field.name]} 
-                                            onChange={updateEntrySetterFactory(field.name)}/>
-                                        { field.append && <InputGroup.Text >{field.append}</InputGroup.Text>}
-                                    </InputGroup>
-                                </Form.Group>
-                            </Col>
-                        ))}
+                        <Col>
+                            <Form.Group>
+                                <Form.Check type="checkbox" label="Save form values" 
+                                    checked={formState["save_form_vals"]} 
+                                    onChange={updateEntrySetterFactory("save_form_vals", true)} />
+                            </Form.Group>
+                        </Col>
                     </Row>
-                ))}
-                <Row className="formFieldsRow">
-                    <Col>
-                        <Form.Group>
-                            <Form.Check type="checkbox" label="Save form values" 
-                                checked={formState["save_form_vals"]} 
-                                onChange={updateEntrySetterFactory("save_form_vals", true)} />
-                        </Form.Group>
-                    </Col>
-                </Row>
 
-                <Row className="formFieldsRow">
-                    <Col>
-                        <Button variant="primary" type="submit">Submit</Button>
-                    </Col>
-                </Row>
-                
-            </Form>
-        </div>  
+                    <Row className="formFieldsRow">
+                        <Col>
+                            <Button variant="primary" type="submit">Submit</Button>
+                        </Col>
+                    </Row>
+                    
+                </Form>
+            </div>  
+        </>
     );
 }
 

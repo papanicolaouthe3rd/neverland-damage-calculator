@@ -4,9 +4,13 @@ import './App.css';
 import StatsAndTargetForm from './components/StatsAndTargetForm/StatsAndTargetForm';
 
 function App() {
+  const onSubmit = (formValues) => {
+    console.log(formValues);
+  };
+
   return (
     <div className="container">
-      <StatsAndTargetForm />
+      <StatsAndTargetForm onSuccessfulSubmitCallback={onSubmit} />
     </div>
   );
 }
