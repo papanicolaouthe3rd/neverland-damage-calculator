@@ -1,7 +1,8 @@
 // import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import StatsAndTargetForm from './components/StatsAndTargetForm/StatsAndTargetForm';
+
+import StatsComparisonEvalPage from 'pages/StatsComparisonEvalPage/StatsComparisonEvalPage';
 
 function App() {
   const onSubmit = (formValues) => {
@@ -10,7 +11,7 @@ function App() {
 
   return (
     <div className="container">
-      <StatsAndTargetForm onSuccessfulSubmitCallback={onSubmit} />
+      <StatsComparisonEvalPage />
     </div>
   );
 }

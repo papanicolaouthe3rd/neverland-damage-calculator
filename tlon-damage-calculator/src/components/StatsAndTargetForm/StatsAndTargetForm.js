@@ -9,7 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 import React from 'react';
-// import Tooltip from 'react-bootstrap/Tooltip';
+
+import ExplanationTooltip from 'components/ExplanationTooltip/ExplanationTooltip';
 
 const availablePlayers = [
     { username: "Test player 1", id: "tp1" },
@@ -35,15 +36,23 @@ const defaultFormValues = {
 const attributeFormFields = [
     [
         { label: "ATK", type: "number", name: "attack" },
-        { label: "ATK Amplifier", type: "number", append: "%", name: "attack_amplifier" }
+        { label: "ATK Amplifier", type: "number", append: "%", name: "attack_amplifier",
+            explanation: "The sum of amplifiers from Skill Advancements and Echoes (e.g. Holy Echo)"
+         }
     ],
     [
-        { label: "Base CRIT", type: "number", name: "crit" },
-        { label: "Additional CRIT Rate", type: "number", append: "%", name: "crit_rate" },
+        { label: "Base CRIT", type: "number", name: "crit",
+            explanation: "The numeric value of crit (first row in Crit Rate tooltip)"
+        },
+        { label: "Additional CRIT Rate", type: "number", append: "%", name: "crit_rate",
+            explanation: "The sum of Class Advancement, Flower Fairy Echo and Other in Crit Rate tooltip"
+        },
         { label: "Crit DMG +", type: "number", append: "%", name: "crit_dmg" }
     ],
     [
-        { label: "Break Rate", type: "number", append: "%", name: "break_rate" }
+        { label: "Break Rate", type: "number", append: "%", name: "break_rate",
+            explanation: "The total percentage next to Break Rate attribute row"
+        }
     ],
     [
         { label: "DMG increase", type: "number", append: "%", name: "dmg_increase" },
@@ -187,7 +196,14 @@ function StatsAndTargetForm({
                             { fieldRow.map((field) => (
                                 <Col>
                                     <Form.Group>
-                                        <Form.Label>{field.label}</Form.Label>
+                                        <Form.Label>
+                                            {field.label} 
+                                            { (field.explanation) && <>
+                                                    &nbsp;
+                                                    <ExplanationTooltip 
+                                                        size={'1.25em'} explanation={field.explanation} />
+                                                </> }
+                                        </Form.Label>
                                         <InputGroup>
                                             { field.prepend && <InputGroup.Text >{field.prepend}</InputGroup.Text>}
                                             <Form.Control type={field.type} 
