@@ -64,10 +64,13 @@ const attributeFormFields = [
 ];
 
 
-const labelToName = attributeFormFields.flat().reduce((acc, field) => ({
+const statLabelToNameMapping = attributeFormFields.flat().reduce((acc, field) => ({
     ...acc,
     [field.name]: field.label
-}), { "target_player": "Target player" });
+}), { 
+    "target_player": "Target player",
+    "break": "Base BREAK" 
+});
 
 
 
@@ -114,7 +117,7 @@ function processFormValues(formData, onErrorCallback) {
                 throw new Error("Negative value");
             }
         } catch (error) {
-            onErrorCallback(`${labelToName[key]} must be a positive integer.`);
+            onErrorCallback(`${statLabelToNameMapping[key]} must be a positive integer.`);
             return null;
         }
     }
@@ -129,7 +132,7 @@ function processFormValues(formData, onErrorCallback) {
                 throw new Error("Negative value");
             }
         } catch (error) {
-            onErrorCallback(`${labelToName[key]} must be a positive real number.`);
+            onErrorCallback(`${statLabelToNameMapping[key]} must be a positive real number.`);
             return null;
         }
     }
@@ -191,10 +194,10 @@ function StatsAndTargetForm({
 
                     <div className="section-heading">Your attributes</div>
 
-                    { attributeFormFields.map((fieldRow) => (
+                    { attributeFormFields.map((fieldRow, rowIndex) => (
                         <Row className="formFieldsRow">
                             { fieldRow.map((field) => (
-                                <Col>
+                                <Col xs={12} lg={12 / attributeFormFields[rowIndex].length}>
                                     <Form.Group>
                                         <Form.Label>
                                             {field.label} 
@@ -244,4 +247,5 @@ function StatsAndTargetForm({
     );
 }
 
+export { statLabelToNameMapping };
 export default StatsAndTargetForm;
