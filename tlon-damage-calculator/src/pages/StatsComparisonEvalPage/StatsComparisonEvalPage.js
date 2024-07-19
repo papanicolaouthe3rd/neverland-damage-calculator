@@ -8,40 +8,40 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import StatScoreDisplay from 'components/StatScoreDisplay/StatScoreDisplay';
 
+import axiosInstance from 'utils/axiosConfig';
+
+
 function StatsComparisonEvalPage() {
     const [ pageState, setPageState ] = useState("form");
     const [ statScores, setStatScores ] = useState(null);
 
-    // const dummyData = {
-    //     player: "Test Player 1",
-    //     stat_scores: {
-    //         "ATK": 50,
-    //         "CRIT": 50,
-    //         "CRIT DMG": 20,
-    //     }
-    // };
-
     const onSubmit = (formValues) => {
         setPageState("results");
-        console.log(formValues);
 
-        
-        fetch("http://localhost:7001/calculate", {
-            method: 'POST',
-            body: JSON.stringify(formValues),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            
-            console.log(data);
-            setStatScores(data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        axiosInstance
+            .post('/calculate', formValues)
+            .then((response) => {
+                console.log(response);
+                if(response.status === 200) {
+                    const data = response.data;
+                    setStatScores({
+                        "status": "ok",
+                        "data": data
+                    });
+                }
+                else {
+                    setStatScores({
+                        "status": "error",
+                        "message": "Error in processing request."
+                    });
+                }
+            })
+            .catch((_) => {
+                setStatScores({
+                    "status": "error",
+                    "message": "Malfunctioning connection to the server."
+                });
+            });
     };
 
     const renderPagePart = (param) => {
