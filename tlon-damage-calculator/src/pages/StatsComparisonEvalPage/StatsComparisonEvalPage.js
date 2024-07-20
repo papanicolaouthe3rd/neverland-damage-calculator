@@ -21,7 +21,6 @@ function StatsComparisonEvalPage() {
         axiosInstance
             .post('/calculate', formValues)
             .then((response) => {
-                console.log(response);
                 if(response.status === 200) {
                     const data = response.data;
                     setStatScores({
@@ -59,6 +58,8 @@ function StatsComparisonEvalPage() {
                         </div>
                     );
                 };
+            default:
+                return <h1>404: Page not found</h1>;
         }
     }
 

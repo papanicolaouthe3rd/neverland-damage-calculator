@@ -13,27 +13,42 @@ import React from 'react';
 import ExplanationTooltip from 'components/ExplanationTooltip/ExplanationTooltip';
 
 const availablePlayers = [
-    { username: "Test player 1", id: "tp1" },
-    { username: "Test player 2", id: "tp2" },
+    { username: "Test whale 1", id: "tp1" }
 ];
 const isSupportedPlayerId = queryId => 
     availablePlayers.some(player => player.id === queryId);
+const availableBuilds = [
+    { value: "plain", "label": "No buffs" },
+    { value: "priest_buff", "label": "Priest buff" },
+    { value: "offensive1", "label": "Priest buff + Offensive Wills" },
+];
+const isSupportedBuild = queryBuild =>
+    availableBuilds.some(build => build.value === queryBuild);
+
 
 const defaultFormValues = {
+    "level": 220,
     "attack": 100000,
     "attack_amplifier": 32,
     "crit": 10000,
-    "crit_rate": 32,
+    "crit_rate": 18,
     "crit_dmg": 0,
-    "break_rate": 50,
+    "base_break": 10000,
+    "break_rate": 18,
+    "ignores_block": 0,
     "dmg_increase": 10,
-    "pvp_dmg_increase": 12,
+    "pvp_dmg_increase": 17,
     "pierce_rate": 50,
+    "build_type": "plain",
     "target_player": availablePlayers[0].id,
     "save_form_vals": false
 };
 
 const attributeFormFields = [
+    [
+        { label: "Level", type: "number", name: "level" },
+        { label: "Build type", type: "select", name: "build_type", options: availableBuilds }
+    ],
     [
         { label: "ATK", type: "number", name: "attack" },
         { label: "ATK Amplifier", type: "number", append: "%", name: "attack_amplifier",
@@ -50,9 +65,13 @@ const attributeFormFields = [
         { label: "Crit DMG +", type: "number", append: "%", name: "crit_dmg" }
     ],
     [
-        { label: "Break Rate", type: "number", append: "%", name: "break_rate",
-            explanation: "The total percentage next to Break Rate attribute row"
-        }
+        { label: "Base BREAK", type: "number", name: "base_break",
+            explanation: "The numeric value of break (first row in Break Rate tooltip)"
+        },
+        { label: "Additional BREAK Rate", type: "number", append: "%", name: "break_rate",
+            explanation: "The sum of Class Advancement, Flower Fairy Echo and Other in Break Rate tooltip"
+        },
+        { label: "Ignores Block", type: "number", append: "%", name: "ignores_block" }
     ],
     [
         { label: "DMG increase", type: "number", append: "%", name: "dmg_increase" },
@@ -89,6 +108,9 @@ function getStoredFormValues() {
     if (!isSupportedPlayerId(formData["target_player"])) {
         formData["target_player"] = defaultFormValues["target_player"];
     }
+    if (!isSupportedBuild(formData["build_type"])) {
+        formData["build_type"] = defaultFormValues["build_type"];
+    }
     return formData;
 }
 
@@ -107,7 +129,11 @@ function processFormValues(formData, onErrorCallback) {
         onErrorCallback("Invalid target player selected.");
         return null;
     }
-    for (const key of ['attack', 'crit']) {
+    if (!isSupportedBuild(processedData["build_type"])) {
+        onErrorCallback("Invalid build selected.");
+        return null;
+    }
+    for (const key of ['attack', 'crit', 'base_break', 'level']) {
         try {
             if (processedData[key] === "") {
                 throw new Error("Empty value");
@@ -122,7 +148,7 @@ function processFormValues(formData, onErrorCallback) {
         }
     }
     for (const key of ['attack_amplifier', 'crit_rate', 'crit_dmg', 
-            'break_rate', 'dmg_increase', 'pvp_dmg_increase', 'pierce_rate']) {
+            'break_rate', 'dmg_increase', 'pvp_dmg_increase', 'pierce_rate', 'ignores_block']) {
         try{
             if (processedData[key] === "") {
                 throw new Error("Empty value");
@@ -181,16 +207,18 @@ function StatsAndTargetForm({
             } 
             <div className="form-container">
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group className="target-player-section">
-                        <Form.Label>Target player</Form.Label>
-                        <Form.Control as="select" 
-                                value={formState["target_player"]} 
-                                onChange={updateEntrySetterFactory("target_player")}>
-                            { availablePlayers.map((player) => ( 
-                                <option value={player.id}>{player.username}</option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
+                    <div className="target-player-section">
+                        <Form.Group>
+                            <Form.Label>Target player</Form.Label>
+                            <Form.Control as="select" 
+                                    value={formState["target_player"]} 
+                                    onChange={updateEntrySetterFactory("target_player")}>
+                                { availablePlayers.map((player) => ( 
+                                    <option value={player.id}>{player.username}</option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                    </div>
 
                     <div className="section-heading">Your attributes</div>
 
@@ -209,16 +237,29 @@ function StatsAndTargetForm({
                                         </Form.Label>
                                         <InputGroup>
                                             { field.prepend && <InputGroup.Text >{field.prepend}</InputGroup.Text>}
-                                            <Form.Control type={field.type} 
-                                                value={formState[field.name]} 
-                                                onChange={updateEntrySetterFactory(field.name)}
-                                                min={ field.type === "number" ? 0 : null }
-                                                step={ field.type === "number" ? (
-                                                    field.append === "%" ? 0.01 : 1
-                                                ) : null }
-                                                required
-                                            />
-                                            { field.append && <InputGroup.Text >{field.append}</InputGroup.Text>}
+                                            { field.type === "select" ? (<>
+                                                <Form.Control as="select" 
+                                                    value={formState[field.name]} 
+                                                    onChange={updateEntrySetterFactory(field.name)}
+                                                    // value={formState["target_player"]} 
+                                                    // onChange={updateEntrySetterFactory("target_player")}
+                                                >
+                                                { field.options.map((option) => ( 
+                                                    <option value={option.value}>{option.label}</option>
+                                                ))}
+                                            </Form.Control>
+                                            </>) : (<>
+                                                <Form.Control type={field.type} 
+                                                    value={formState[field.name]} 
+                                                    onChange={updateEntrySetterFactory(field.name)}
+                                                    min={ field.type === "number" ? 0 : null }
+                                                    step={ field.type === "number" ? (
+                                                        field.append === "%" ? 0.01 : 1
+                                                    ) : null }
+                                                    required
+                                                />
+                                                { field.append && <InputGroup.Text >{field.append}</InputGroup.Text>}
+                                            </>)}
                                         </InputGroup>
                                     </Form.Group>
                                 </Col>
