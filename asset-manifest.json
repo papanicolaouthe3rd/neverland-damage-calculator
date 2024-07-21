@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/neverland-damage-calculator/static/css/main.0a377a63.css",
-    "main.js": "/neverland-damage-calculator/static/js/main.e7c15243.js",
+    "main.js": "/neverland-damage-calculator/static/js/main.61bfd35b.js",
     "static/js/453.b688b682.chunk.js": "/neverland-damage-calculator/static/js/453.b688b682.chunk.js",
     "index.html": "/neverland-damage-calculator/index.html",
     "main.0a377a63.css.map": "/neverland-damage-calculator/static/css/main.0a377a63.css.map",
-    "main.e7c15243.js.map": "/neverland-damage-calculator/static/js/main.e7c15243.js.map",
+    "main.61bfd35b.js.map": "/neverland-damage-calculator/static/js/main.61bfd35b.js.map",
     "453.b688b682.chunk.js.map": "/neverland-damage-calculator/static/js/453.b688b682.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0a377a63.css",
-    "static/js/main.e7c15243.js"
+    "static/js/main.61bfd35b.js"
   ]
 }
